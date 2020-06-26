@@ -5,25 +5,25 @@
       <li
         class="collection-item"
         v-for="cur of favoriteCurrencyRates"
-        :key="cur.Cur_ID"
+        :key="cur.curId"
       >
         <p class="icon">
-          <i class="material-icons" @click="updateFavoriteCurrency(cur.Cur_ID)"
+          <i class="material-icons" @click="updateFavoriteCurrency(cur.curId)"
             >star</i
           >
         </p>
-        <p class="Abbreviation">{{ cur.Cur_Abbreviation }}</p>
-        <p class="Cur_Name">
-          {{ cur.Cur_Name_Eng | localize }}
+        <p class="Abbreviation">{{ cur.curAbbreviation }}</p>
+        <p class="curName">
+          {{ cur.curNameEng | localize }}
         </p>
-        <p class="Cur_Scale">
-          {{ adaptRounding(mainRates / cur.Cur_OfficialRate, cur.Cur_Scale) }}
+        <p class="curScale">
+          {{ adaptRounding(mainRates / cur.curOfficialRate, cur.curScale) }}
         </p>
-        <p class="Cur_OfficialRate">
+        <p class="curOfficialRate">
           {{
             adaptRounding(
-              cur.Cur_OfficialRate / mainRates,
-              cur.Cur_OfficialRate / mainRates
+              cur.curOfficialRate / mainRates,
+              cur.curOfficialRate / mainRates
             ).toFixed(4) +
               " " +
               getMainCurrency
@@ -34,27 +34,27 @@
       <li
         class="collection-item"
         v-for="cur of otherCurrencyRates"
-        :key="cur.Cur_ID"
+        :key="cur.curId"
       >
         <p class="icon">
           <i
             class="material-icons"
-            @click.prevent="updateFavoriteCurrency(cur.Cur_ID)"
+            @click.prevent="updateFavoriteCurrency(cur.curId)"
             >star_border</i
           >
         </p>
-        <p class="Abbreviation">{{ cur.Cur_Abbreviation }}</p>
-        <p class="Cur_Name">
-          {{ cur.Cur_Name_Eng | localize }}
+        <p class="Abbreviation">{{ cur.curAbbreviation }}</p>
+        <p class="curName">
+          {{ cur.curNameEng | localize }}
         </p>
-        <p class="Cur_Scale">
-          {{ adaptRounding(mainRates / cur.Cur_OfficialRate, cur.Cur_Scale) }}
+        <p class="curScale">
+          {{ adaptRounding(mainRates / cur.curOfficialRate, cur.curScale) }}
         </p>
-        <p class="Cur_OfficialRate">
+        <p class="curOfficialRate">
           {{
             adaptRounding(
-              cur.Cur_OfficialRate / mainRates,
-              cur.Cur_OfficialRate / mainRates
+              cur.curOfficialRate / mainRates,
+              cur.curOfficialRate / mainRates
             ).toFixed(4) +
               " " +
               getMainCurrency
@@ -96,8 +96,8 @@ export default {
   },
 
   methods: {
-    updateFavoriteCurrency(Cur_ID) {
-      this.$store.dispatch("updateFavoriteCurrency", Cur_ID);
+    updateFavoriteCurrency(curId) {
+      this.$store.dispatch("updateFavoriteCurrency", curId);
     },
     adaptRounding(a, b) {
       return a < 0.1 ? this.adaptRounding(a * 10, b * 10) : b;
@@ -134,8 +134,8 @@ export default {
     },
     mainRates() {
       return this.currencyRates.find(
-        i => i.Cur_Abbreviation === this.$store.getters["mainCurrency"]
-      ).Cur_OfficialRate;
+        i => i.curAbbreviation === this.$store.getters["mainCurrency"]
+      ).curOfficialRate;
     }
   }
 };
@@ -150,12 +150,12 @@ export default {
   width: 10% !important;
   margin: 0;
 }
-.collection-item > p.Cur_Name {
+.collection-item > p.curName {
   width: 40% !important;
   margin: 0;
 }
-.collection-item > p.Cur_Scale,
-.collection-item > p.Cur_OfficialRate {
+.collection-item > p.curScale,
+.collection-item > p.curOfficialRate {
   width: 20% !important;
   text-align: end;
   margin: 0;

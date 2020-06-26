@@ -3,12 +3,12 @@ import Vuex from "vuex";
 import Axios from "axios";
 
 const BYN = {
-  Cur_ID: 0,
-  Cur_Abbreviation: "BYN",
-  Cur_Scale: 1,
-  Cur_Name: "Белорусский рубль",
-  Cur_Name_Eng: "Belarusian Ruble",
-  Cur_OfficialRate: 1,
+  curId: 0,
+  curAbbreviation: "BYN",
+  curScale: 1,
+  curName: "Белорусский рубль",
+  curNameEng: "Belarusian Ruble",
+  curOfficialRate: 1,
   favorite: true
 };
 
@@ -23,10 +23,10 @@ export default new Vuex.Store({
     currenciesAll: null,
     currencyRates: null,
     favoritesCurrencies: [
-      { Cur_Abbreviation: "USD", Cur_ID: 145 },
-      { Cur_Abbreviation: "EUR", Cur_ID: 292 },
-      { Cur_Abbreviation: "RUB", Cur_ID: 298 },
-      { Cur_Abbreviation: "BYN", Cur_ID: 0 }
+      { curAbbreviation: "USD", curId: 145 },
+      { curAbbreviation: "EUR", curId: 292 },
+      { curAbbreviation: "RUB", curId: 298 },
+      { curAbbreviation: "BYN", curId: 0 }
     ],
     converterMainCurrency: "BYN",
     converterNecessaryCurrency: "USD"
@@ -39,34 +39,36 @@ export default new Vuex.Store({
     setIsLoading(state) {
       state.setIsLoading = !state.setIsLoading;
     },
-    async setCurrencyRates(state, currency) {
-      // console.log("stor setCurrencyRates=> currency", currency);
-      const myCurrency = await currency.map(item => {
-        item.Cur_Name_Eng = state.currenciesAll.find(
+    setCurrencyRates(state, currency) {
+      const currencyRates = currency.map(item => {
+        const currencyElement = {
+          curId: item.Cur_ID,
+          date: item.Date,
+          curAbbreviation: item.Cur_Abbreviation,
+          curScale: item.Cur_Scale,
+          curName: item.Cur_Name,
+          curOfficialRate: item.Cur_OfficialRate
+        }
+        currencyElement.curNameEng = state.currenciesAll.find(
           i => i.Cur_ID === item.Cur_ID
         ).Cur_Name_Eng;
-        if (
-          item.Cur_Abbreviation === "BYN" ||
+
+        currencyElement.favorite =  item.Cur_Abbreviation === "BYN" ||
           item.Cur_Abbreviation === "RUB" ||
           item.Cur_Abbreviation === "USD" ||
-          item.Cur_Abbreviation === "EUR"
-        ) {
-          item.favorite = true;
-          return item;
-        } else {
-          item.favorite = false;
-          return item;
-        }
+          item.Cur_Abbreviation === "EUR";
+
+        return currencyElement;
       });
-      myCurrency.push(BYN);
-      state.currencyRates = myCurrency;
+      currencyRates.push(BYN);
+      state.currencyRates = currencyRates;
     },
     setMainCurrency(state, currency) {
       state.mainCurrency = currency;
     },
-    setFavoriteStatus(state, Cur_ID) {
+    setFavoriteStatus(state, curId) {
       const updatedCurrencyRates = state.currencyRates.map(item => {
-        if (item.Cur_ID === Cur_ID) {
+        if (item.curId === curId) {
           return { ...item, favorite: !item.favorite };
         }
         return item;
@@ -90,21 +92,19 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async fetchCurrencies({ dispatch, commit, getters }) {
+    async fetchCurrencies({ commit }) {
       try {
-        await Axios.get(
-          `https://www.nbrb.by/api/exrates/currencies`
-        ).then(res => commit("setCurrenciesAll", res.data));
+        const res = await Axios.get('https://www.nbrb.by/api/exrates/currencies')
+        commit("setCurrenciesAll", res.data);
       } catch (e) {
         commit("setError", e);
         throw e;
       }
     },
-    async fetchCurrencyRates({ dispatch, commit, getters }) {
+    async fetchCurrencyRates({ commit }) {
       try {
-        await Axios.get(
-          `https://www.nbrb.by/api/exrates/rates?periodicity=0`
-        ).then(res => commit("setCurrencyRates", res.data));
+        const res = await Axios.get('https://www.nbrb.by/api/exrates/rates?periodicity=0')
+        commit("setCurrencyRates", res.data);
       } catch (e) {
         commit("setError", e);
         throw e;
@@ -117,14 +117,14 @@ export default new Vuex.Store({
       commit("setMainCurrency", newValue);
       commit("setConverterMainCurrency", newValue);
     },
-    updateIsLoading({ dispatch, commit, getters }) {
+    updateIsLoading({ commit }) {
       commit("setIsLoading");
     },
     updateConverterNecessaryCurrency({ dispatch, commit, getters }, newValue) {
       commit("setConverterNecessaryCurrency", newValue);
     },
-    updateFavoriteCurrency({ dispatch, commit, getters }, Cur_ID) {
-      commit("setFavoriteStatus", Cur_ID);
+    updateFavoriteCurrency({ dispatch, commit, getters }, curId) {
+      commit("setFavoriteStatus", curId);
     },
     changeLocale({ dispatch, commit, getters }, locale) {
       commit("setLocale", locale);

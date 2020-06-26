@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import Nav from "./components/Navbar";
-import Footer from "./components/Footer";
+import Nav from "./layout/header/Header";
+import Footer from "./layout/footer/Footer";
 
 export default {
   components: {

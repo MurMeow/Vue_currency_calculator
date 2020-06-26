@@ -25,11 +25,11 @@
                 <ul id="dropdown1" class="dropdown-content" tabindex="0">
                   <li
                     v-for="cur of favoriteCurrencyRates"
-                    :key="cur.Cur_ID"
+                    :key="cur.curId"
                     class="black-text"
-                    @click="updateConverterMainCurrency(cur.Cur_Abbreviation)"
+                    @click="updateConverterMainCurrency(cur.curAbbreviation)"
                   >
-                    {{ cur.Cur_Abbreviation }}
+                    {{ cur.curAbbreviation }}
                   </li>
                 </ul>
               </li>
@@ -59,13 +59,13 @@
                 <ul id="dropdown2" class="dropdown-content">
                   <li
                     v-for="cur of favoriteCurrencyRates"
-                    :key="cur.Cur_ID"
+                    :key="cur.curId"
                     class="black-text"
                     @click="
-                      updateConverterNecessaryCurrency(cur.Cur_Abbreviation)
+                      updateConverterNecessaryCurrency(cur.curAbbreviation)
                     "
                   >
-                    {{ cur.Cur_Abbreviation }}
+                    {{ cur.curAbbreviation }}
                   </li>
                 </ul>
               </li>
@@ -133,14 +133,14 @@ export default {
         ? 1
         : this.currencyRates.find(
             i =>
-              i.Cur_Abbreviation ===
+              i.curAbbreviation ===
               this.$store.getters["converterMainCurrency"]
-          ).Cur_OfficialRate /
+          ).curOfficialRate /
             this.currencyRates.find(
               i =>
-                i.Cur_Abbreviation ===
+                i.curAbbreviation ===
                 this.$store.getters["converterNecessaryCurrency"]
-            ).Cur_OfficialRate;
+            ).curOfficialRate;
     }
   }
 };
