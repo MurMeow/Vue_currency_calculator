@@ -74,29 +74,21 @@
         </tr>
       </tbody>
     </table>
-
   </div>
 </template>
 
 <script>
-
 export default {
   name: "Converter",
   data: () => ({
-    loading: true,
-    isRuLocale: false,
-    mainCurrencyRate: 1,
-    NecessaryCurrencyRate: 1,
-    enteredValue: 1,
-    valueNecessaryCurrency: 1
+    enteredValue: 1
   }),
 
   async mounted() {
     this.currenciesAll == null &&
-    (await this.$store.dispatch("fetchCurrencies"));
+      (await this.$store.dispatch("fetchCurrencies"));
     this.currencyRates == null &&
-    (await this.$store.dispatch("fetchCurrencyRates"));
-
+      (await this.$store.dispatch("fetchCurrencyRates"));
     M.Dropdown.init(this.$refs.dropdown1, {
       constrainWidth: false,
       coverTrigger: false
@@ -105,14 +97,8 @@ export default {
       constrainWidth: false,
       coverTrigger: false
     });
-
-    this.isRuLocale = this.locale === "ru-RU";
-
-    this.mainCurrencyRate = this.currencyRates.find(
-      i => i.Cur_Abbreviation === this.$store.getters["converterMainCurrency"]
-    ).Cur_OfficialRate;
-    this.loading = false;
   },
+
   methods: {
     updateConverterMainCurrency(value) {
       this.$store.dispatch("updateConverterMainCurrency", value);
@@ -123,9 +109,6 @@ export default {
   },
 
   computed: {
-    updateIsLoading() {
-      return this.$store.getters["updateIsLoading"];
-    },
     currencyRates() {
       return this.$store.getters["currencyRates"];
     },
@@ -135,28 +118,29 @@ export default {
     converterNecessaryCurrency() {
       return this.$store.getters["converterNecessaryCurrency"];
     },
+    favoritesCurrencies() {
+      return this.$store.getters["favoritesCurrencies"];
+    },
     favoriteCurrencyRates: function() {
-      const a = this.$store.getters["currencyRates"].filter(
-        item => item.favorite === true
-      );
-      return a;
+      return this.$store.getters["currencyRates"] === null
+        ? this.favoritesCurrencies
+        : this.$store.getters["currencyRates"].filter(
+            item => item.favorite === true
+          );
     },
     requiredCurrencyRatio() {
-      return (
-        this.currencyRates.find(
-          i =>
-            i.Cur_Abbreviation === this.$store.getters["converterMainCurrency"]
-        ).Cur_OfficialRate /
-        this.currencyRates.find(
-          i =>
-            i.Cur_Abbreviation ===
-            this.$store.getters["converterNecessaryCurrency"]
-        ).Cur_OfficialRate /
-        this.currencyRates.find(
-          i =>
-            i.Cur_Abbreviation === this.$store.getters["converterMainCurrency"]
-        ).Cur_Scale
-      );
+      return this.currencyRates === null
+        ? 1
+        : this.currencyRates.find(
+            i =>
+              i.Cur_Abbreviation ===
+              this.$store.getters["converterMainCurrency"]
+          ).Cur_OfficialRate /
+            this.currencyRates.find(
+              i =>
+                i.Cur_Abbreviation ===
+                this.$store.getters["converterNecessaryCurrency"]
+            ).Cur_OfficialRate;
     }
   }
 };
@@ -178,11 +162,5 @@ td {
 }
 .converter-dropdown {
   padding: 0 16px !important;
-}
-.open-dropdown {
-  display: block;
-  opacity: 1;
-  margin: 2.5rem 0 0 -1rem;
-  width: 94px;
 }
 </style>

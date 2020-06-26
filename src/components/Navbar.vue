@@ -66,18 +66,12 @@ export default {
     mainCurrency: null
   }),
   mounted() {
-     M.Dropdown.init(this.$refs.dropdown, {
+    M.Dropdown.init(this.$refs.dropdown, {
       constrainWidth: false,
       coverTrigger: false
     });
-    console.log("$refs", this.$refs);
     this.mainCurrency = this.getMainCurrency;
     this.isRuLocale = this.locale === "ru-RU";
-    // console.log("this.favoriteCurrency", this.favoriteCurrency);
-    // this.favoriteCurrency = this.$store.getters["currencyRates"].filter(
-    //   item => item.favorite === true
-    // );
-    // console.log("this.favoriteCurrency222", this.favoriteCurrency);
     this.loading = false;
   },
 

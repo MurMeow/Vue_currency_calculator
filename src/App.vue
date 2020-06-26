@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <Nav />
-    <Loader v-if='isLoading'/>
-    <div class="container" v-else>
+    <div class="container">
       <router-view />
     </div>
     <Footer />
@@ -12,19 +11,12 @@
 <script>
 import Nav from "./components/Navbar";
 import Footer from "./components/Footer";
-import Loader from "./components/Loader";
 
 export default {
   components: {
     Nav,
-    Footer,
-    Loader
+    Footer
   },
-  computed: {
-    isLoading() {
-      return this.$store.getters["isLoading"];
-    },
-  }
 };
 </script>
 

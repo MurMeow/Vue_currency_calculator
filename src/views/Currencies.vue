@@ -62,28 +62,28 @@
         </p>
       </li>
     </ul>
-    <Paginate
-      v-model="page"
-      :page-count="pageCount"
-      :click-handler="pageChangeHandler"
-      :prev-text="'History_Back' | localize"
-      :next-text="'History_Forward' | localize"
-      :container-class="'pagination'"
-      :page-class="'waves-effect'"
-    />
+    <!--    <Paginate-->
+    <!--      v-model="page"-->
+    <!--      :page-count="pageCount"-->
+    <!--      :click-handler="pageChangeHandler"-->
+    <!--      :prev-text="'History_Back' | localize"-->
+    <!--      :next-text="'History_Forward' | localize"-->
+    <!--      :container-class="'pagination'"-->
+    <!--      :page-class="'waves-effect'"-->
+    <!--    />-->
   </div>
 </template>
 
 <script>
-import paginationMixin from "../mixins/pagination.mixin";
+// import paginationMixin from "../mixins/pagination.mixin";
+import Loader from "../components/spinner/Spinner";
 
 export default {
   name: "Currencies",
-  components: {},
-  mixins: [paginationMixin],
+  components: { Loader },
+  // mixins: [paginationMixin],
   data: () => ({
-    loading: true,
-    isRuLocale: false
+    loading: true
   }),
 
   async mounted() {
@@ -91,9 +91,8 @@ export default {
       (await this.$store.dispatch("fetchCurrencies"));
     this.currencyRates == null &&
       (await this.$store.dispatch("fetchCurrencyRates"));
-    this.isRuLocale = this.locale === "ru-RU";
     this.loading = false;
-    this.setup();
+    // this.setup();
   },
 
   methods: {
@@ -102,15 +101,15 @@ export default {
     },
     adaptRounding(a, b) {
       return a < 0.1 ? this.adaptRounding(a * 10, b * 10) : b;
-    },
-
-    setup() {
-      this.setupPagination(
-        this.currencyRates.map(item => {
-          return item;
-        })
-      );
     }
+
+    // setup() {
+    //   this.setupPagination(
+    //     this.currencyRates.map(item => {
+    //       return item;
+    //     })
+    //   );
+    // }
   },
 
   computed: {
@@ -124,16 +123,14 @@ export default {
       return this.$store.getters["currencyRates"];
     },
     favoriteCurrencyRates: function() {
-      const a = this.$store.getters["currencyRates"].filter(
+      return this.$store.getters["currencyRates"].filter(
         item => item.favorite === true
       );
-      return a;
     },
     otherCurrencyRates: function() {
-      const b = this.$store.getters["currencyRates"].filter(
+      return this.$store.getters["currencyRates"].filter(
         item => item.favorite === false
       );
-      return b;
     },
     mainRates() {
       return this.currencyRates.find(

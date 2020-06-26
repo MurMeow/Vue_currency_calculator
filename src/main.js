@@ -5,7 +5,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import localizeFilter from "./filters/localize.filter";
-import Loader from "./components/Loader";
+import Loader from "./components/spinner/Spinner";
 import Paginate from "vuejs-paginate";
 
 Vue.config.productionTip = false;

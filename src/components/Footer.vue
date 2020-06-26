@@ -1,19 +1,4 @@
 <template>
-  <!--  <nav>-->
-  <!--    <div class="nav-wrapper container">-->
-  <!--      <a href="#" class="brand-logo">Logo</a>-->
-  <!--      <ul id="nav-mobile" class="right hide-on-med-and-down">-->
-  <!--        <li class="nav-item">-->
-  <!--          <router-link to="/" class="white-text">Home</router-link>-->
-  <!--        </li>-->
-  <!--        <li class="nav-item">-->
-  <!--          <router-link to="/converter" class="white-text"-->
-  <!--          >Converter</router-link-->
-  <!--          >-->
-  <!--        </li>-->
-  <!--      </ul>-->
-  <!--    </div>-->
-  <!--  </nav>-->
   <footer class="page-footer">
     <div class="footer-copyright">
       <div class="container white-text flex">

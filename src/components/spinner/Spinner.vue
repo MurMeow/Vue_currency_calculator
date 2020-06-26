@@ -16,10 +16,6 @@
   </div>
 </template>
 
-<script>
-export default {};
-</script>
-
 <style>
 .app-loader {
   margin: auto auto;
