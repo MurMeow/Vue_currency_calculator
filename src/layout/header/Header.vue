@@ -28,12 +28,12 @@
         </ul>
 
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li class="nav-item">
-            <router-link to="/" class="white-text">
+          <li class="nav-item" v-bind:class="{active: isActive}" v-on:click="isActive=!isActive">
+            <router-link to="/currencies" class="white-text">
               {{ "Currencies" | localize }}
             </router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-bind:class="{active: !isActive}" v-on:click="isActive=!isActive">
             <router-link to="/converter" class="white-text">
               {{ "Converter" | localize }}
             </router-link>
@@ -61,7 +61,8 @@ export default {
   data: () => ({
     loading: true,
     isRuLocale: true,
-    mainCurrency: null
+    mainCurrency: null,
+    isActive: true
   }),
   mounted() {
     M.Dropdown.init(this.$refs.dropdown, {
@@ -70,6 +71,8 @@ export default {
     });
     this.mainCurrency = this.getMainCurrency;
     this.isRuLocale = this.locale === "ru-RU";
+    console.log("header",this.$route.path)
+    this.isActive = this.$route.path == "/currencies" || this.$route.path == "/"
     this.loading = false;
   },
 
@@ -97,7 +100,6 @@ export default {
 
   methods: {
     updateMainCurrency(value) {
-      // console.log("updateMainCurrency nav", value);
       this.mainCurrency = value;
       this.$store.dispatch("updateMainCurrency", value);
     },
@@ -120,5 +122,8 @@ export default {
 li.black-text {
   min-height: 1rem;
   padding-left: 1rem;
+}
+.active {
+  border-bottom: 1px solid;
 }
 </style>

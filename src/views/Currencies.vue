@@ -37,6 +37,7 @@ export default {
     this.currencyRates == null &&
       (await this.$store.dispatch("fetchCurrencyRates"));
     this.loading = false;
+    console.log("currency",this.$route)
   },
 
   computed: {

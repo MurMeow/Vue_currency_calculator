@@ -97,6 +97,7 @@ export default {
       constrainWidth: false,
       coverTrigger: false
     });
+    console.log("converter",this.$route)
   },
 
   methods: {
@@ -147,6 +148,7 @@ export default {
 </script>
 
 <style scoped>
+
 .currency-table {
   width: fit-content;
 }
@@ -162,5 +164,9 @@ td {
 }
 .converter-dropdown {
   padding: 0 16px !important;
+}
+li.black-text {
+  min-height: 1rem;
+  padding-left: 1rem;
 }
 </style>

@@ -17,6 +17,9 @@ export default {
     Nav,
     Footer
   },
+  mounted() {
+    this.$route.path === '/' && this.$router.push(`/currencies`)
+  }
 };
 </script>
 
