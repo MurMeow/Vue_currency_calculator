@@ -1,16 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import Axios from "axios";
-
-const BYN = {
-  curId: 0,
-  curAbbreviation: "BYN",
-  curScale: 1,
-  curName: "Белорусский рубль",
-  curNameEng: "Belarusian Ruble",
-  curOfficialRate: 1,
-  favorite: true
-};
+import axios from "axios";
+import { currencyBYN, BYN, USD, EUR, RUB, localeEnUS } from "../consts";
 
 Vue.use(Vuex);
 
@@ -18,18 +9,18 @@ export default new Vuex.Store({
   state: {
     error: null,
     isLoading: false,
-    locale: "en-US",
-    mainCurrency: "BYN",
+    locale: localeEnUS,
+    mainCurrency: BYN,
     currenciesAll: null,
     currencyRates: null,
     favoritesCurrencies: [
-      { curAbbreviation: "USD", curId: 145 },
-      { curAbbreviation: "EUR", curId: 292 },
-      { curAbbreviation: "RUB", curId: 298 },
-      { curAbbreviation: "BYN", curId: 0 }
+      { curAbbreviation: USD, curId: 145 },
+      { curAbbreviation: EUR, curId: 292 },
+      { curAbbreviation: RUB, curId: 298 },
+      { curAbbreviation: BYN, curId: 0 }
     ],
-    converterMainCurrency: "BYN",
-    converterNecessaryCurrency: "USD"
+    converterMainCurrency: BYN,
+    converterNecessaryCurrency: USD
   },
 
   mutations: {
@@ -53,14 +44,14 @@ export default new Vuex.Store({
           i => i.Cur_ID === item.Cur_ID
         ).Cur_Name_Eng;
 
-        currencyElement.favorite =  item.Cur_Abbreviation === "BYN" ||
-          item.Cur_Abbreviation === "RUB" ||
-          item.Cur_Abbreviation === "USD" ||
-          item.Cur_Abbreviation === "EUR";
+        currencyElement.favorite =  item.Cur_Abbreviation === BYN ||
+          item.Cur_Abbreviation === RUB ||
+          item.Cur_Abbreviation === USD ||
+          item.Cur_Abbreviation === EUR;
 
         return currencyElement;
       });
-      currencyRates.push(BYN);
+      currencyRates.push(currencyBYN);
       state.currencyRates = currencyRates;
     },
     setMainCurrency(state, currency) {
@@ -94,7 +85,7 @@ export default new Vuex.Store({
   actions: {
     async fetchCurrencies({ commit }) {
       try {
-        const res = await Axios.get('https://www.nbrb.by/api/exrates/currencies')
+        const res = await axios.get('https://www.nbrb.by/api/exrates/currencies')
         commit("setCurrenciesAll", res.data);
       } catch (e) {
         commit("setError", e);
@@ -103,7 +94,7 @@ export default new Vuex.Store({
     },
     async fetchCurrencyRates({ commit }) {
       try {
-        const res = await Axios.get('https://www.nbrb.by/api/exrates/rates?periodicity=0')
+        const res = await axios.get('https://www.nbrb.by/api/exrates/rates?periodicity=0')
         commit("setCurrencyRates", res.data);
       } catch (e) {
         commit("setError", e);
@@ -140,6 +131,5 @@ export default new Vuex.Store({
     currencyRates: s => s.currencyRates,
     converterMainCurrency: s => s.converterMainCurrency,
     converterNecessaryCurrency: s => s.converterNecessaryCurrency
-  },
-  modules: {}
+  }
 });

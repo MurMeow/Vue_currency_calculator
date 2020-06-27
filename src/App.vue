@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Nav />
-    <div class="container">
+    <div class="container content">
       <router-view />
     </div>
     <Footer />
@@ -29,5 +29,12 @@ export default {
 .container {
   width: 80%;
   margin: 0 auto;
+}
+.content {
+  min-height: calc(100vh - 114px);
+}
+.flex {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

@@ -110,19 +110,15 @@ export default {
 };
 </script>
 
-<style>
-.container {
-  width: 80%;
-  margin: 0 auto;
-}
+<style scoped>
 .brand-logo {
-  position: relative !important;
+  position: relative;
 }
 .dropdown-content {
-  max-height: 10rem !important;
+  max-height: 10rem;
 }
 li.black-text {
-  min-height: 1rem !important;
+  min-height: 1rem;
   padding-left: 1rem;
 }
 </style>
