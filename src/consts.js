@@ -15,4 +15,4 @@ export const USD = "USD";
 export const EUR = "EUR";
 export const RUB = "RUB";
 
-export const footerUrlAPI = "https://www.nbrb.by/api/exrates/currencies"
+export const footerUrlAPI = "https://www.nbrb.by/api/exrates/currencies";

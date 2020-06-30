@@ -5,7 +5,11 @@
         <tr class="type-currencies">
           <td>
             <div class="value_input">
-              <input type="text" v-model="enteredValue" ref="value_input" />
+              <input
+                type="number"
+                v-model.number="enteredValue"
+                ref="value_input"
+              />
             </div>
           </td>
 
@@ -97,19 +101,30 @@ export default {
       constrainWidth: false,
       coverTrigger: false
     });
-    console.log("converter",this.$route)
   },
-
+  watch: {
+    enteredValue: function(newValue) {
+      return typeof newValue === "string"
+        ? this.setErrors("You entered an invalid number")
+        : "";
+    }
+  },
   methods: {
     updateConverterMainCurrency(value) {
       this.$store.dispatch("updateConverterMainCurrency", value);
     },
     updateConverterNecessaryCurrency(value) {
       this.$store.dispatch("updateConverterNecessaryCurrency", value);
+    },
+    setErrors(value) {
+      return this.$store.dispatch("setErrors", value);
     }
   },
 
   computed: {
+    error() {
+      return this.$store.getters["error"];
+    },
     currencyRates() {
       return this.$store.getters["currencyRates"];
     },
@@ -119,12 +134,12 @@ export default {
     converterNecessaryCurrency() {
       return this.$store.getters["converterNecessaryCurrency"];
     },
-    favoritesCurrencies() {
-      return this.$store.getters["favoritesCurrencies"];
+    favoritesCurrenciesDefault() {
+      return this.$store.getters["favoritesCurrenciesDefault"];
     },
     favoriteCurrencyRates: function() {
       return this.$store.getters["currencyRates"] === null
-        ? this.favoritesCurrencies
+        ? this.favoritesCurrenciesDefault
         : this.$store.getters["currencyRates"].filter(
             item => item.favorite === true
           );
@@ -134,8 +149,7 @@ export default {
         ? 1
         : this.currencyRates.find(
             i =>
-              i.curAbbreviation ===
-              this.$store.getters["converterMainCurrency"]
+              i.curAbbreviation === this.$store.getters["converterMainCurrency"]
           ).curOfficialRate /
             this.currencyRates.find(
               i =>
@@ -148,7 +162,6 @@ export default {
 </script>
 
 <style scoped>
-
 .currency-table {
   width: fit-content;
 }

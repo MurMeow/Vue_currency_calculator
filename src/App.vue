@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Nav />
+    <ErrorBlock v-if="error.length !== 0" />
     <div class="container content">
       <router-view />
     </div>
@@ -11,15 +12,34 @@
 <script>
 import Nav from "./layout/header/Header";
 import Footer from "./layout/footer/Footer";
+import ErrorBlock from "./components/error/Error.vue";
 
 export default {
+  data: () => ({
+    // errors: []
+  }),
   components: {
     Nav,
-    Footer
+    Footer,
+    ErrorBlock
   },
   mounted() {
-    this.$route.path === '/' && this.$router.push(`/currencies`)
+    // console.log(this.$route)
+    // console.log(window.location.pathname)
+    this.$route.path === "/" &&
+      window.location.pathname !== "/converter" &&
+      this.$router.push(`/currencies`);
+  },
+  computed: {
+    error() {
+      return this.$store.getters["error"];
+    }
   }
+  // watch: {
+  //   error ({ dispatch, commit, getters }, newValue) {
+  //       commit("setError", newValue);
+  //   }
+  // }
 };
 </script>
 
@@ -29,6 +49,9 @@ export default {
 </style>
 
 <style>
+#app {
+  position: relative;
+}
 .container {
   width: 80%;
   margin: 0 auto;

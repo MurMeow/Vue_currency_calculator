@@ -7,13 +7,13 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    error: null,
+    error: [],
     isLoading: false,
     locale: localeEnUS,
     mainCurrency: BYN,
     currenciesAll: null,
     currencyRates: null,
-    favoritesCurrencies: [
+    favoritesCurrenciesDefault: [
       { curAbbreviation: USD, curId: 145 },
       { curAbbreviation: EUR, curId: 292 },
       { curAbbreviation: RUB, curId: 298 },
@@ -39,12 +39,13 @@ export default new Vuex.Store({
           curScale: item.Cur_Scale,
           curName: item.Cur_Name,
           curOfficialRate: item.Cur_OfficialRate
-        }
+        };
         currencyElement.curNameEng = state.currenciesAll.find(
           i => i.Cur_ID === item.Cur_ID
         ).Cur_Name_Eng;
 
-        currencyElement.favorite =  item.Cur_Abbreviation === BYN ||
+        currencyElement.favorite =
+          item.Cur_Abbreviation === BYN ||
           item.Cur_Abbreviation === RUB ||
           item.Cur_Abbreviation === USD ||
           item.Cur_Abbreviation === EUR;
@@ -76,27 +77,33 @@ export default new Vuex.Store({
       state.locale = locale;
     },
     setError(state, error) {
-      state.error = error;
+      state.error.push(error);
     },
     clearError(state) {
-      state.error = null;
+      state.error = [];
     }
   },
   actions: {
     async fetchCurrencies({ commit }) {
       try {
-        const res = await axios.get('https://www.nbrb.by/api/exrates/currencies')
+        const res = await axios.get(
+          "https://www.nbrb.by/api/exrates/currencies"
+        );
         commit("setCurrenciesAll", res.data);
       } catch (e) {
+        console.log(e);
         commit("setError", e);
         throw e;
       }
     },
     async fetchCurrencyRates({ commit }) {
       try {
-        const res = await axios.get('https://www.nbrb.by/api/exrates/rates?periodicity=0')
+        const res = await axios.get(
+          "https://www.nbrb.by/api/exrates/rates?periodicity=0"
+        );
         commit("setCurrencyRates", res.data);
       } catch (e) {
+        console.log(e);
         commit("setError", e);
         throw e;
       }
@@ -119,6 +126,12 @@ export default new Vuex.Store({
     },
     changeLocale({ dispatch, commit, getters }, locale) {
       commit("setLocale", locale);
+    },
+    setErrors({ dispatch, commit, getters }, error) {
+      commit("setError", error);
+    },
+    clearOfErrors({ dispatch, commit, getters }) {
+      commit("clearError");
     }
   },
   getters: {
@@ -127,7 +140,7 @@ export default new Vuex.Store({
     locale: s => s.locale,
     mainCurrency: s => s.mainCurrency,
     currenciesAll: s => s.currenciesAll,
-    favoritesCurrencies: s => s.favoritesCurrencies,
+    favoritesCurrenciesDefault: s => s.favoritesCurrenciesDefault,
     currencyRates: s => s.currencyRates,
     converterMainCurrency: s => s.converterMainCurrency,
     converterNecessaryCurrency: s => s.converterNecessaryCurrency

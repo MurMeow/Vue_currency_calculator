@@ -2,18 +2,12 @@
   <Loader v-if="loading" />
   <div v-else>
     <ul class="collection">
-      <li
-      v-for="cur of favoriteCurrencyRates"
-      :key="cur.curId"
-       >
-        <CurrencyDetails :currency='cur' />
+      <li v-for="cur of favoriteCurrencyRates" :key="cur.curId">
+        <CurrencyDetails :currency="cur" />
       </li>
 
-      <li
-        v-for="otherCur of otherCurrencyRates"
-        :key="otherCur.curId"
-      >
-        <CurrencyDetails :currency='otherCur'/>
+      <li v-for="otherCur of otherCurrencyRates" :key="otherCur.curId">
+        <CurrencyDetails :currency="otherCur" />
       </li>
     </ul>
   </div>
@@ -37,7 +31,6 @@ export default {
     this.currencyRates == null &&
       (await this.$store.dispatch("fetchCurrencyRates"));
     this.loading = false;
-    console.log("currency",this.$route)
   },
 
   computed: {

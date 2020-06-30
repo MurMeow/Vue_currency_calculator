@@ -28,12 +28,20 @@
         </ul>
 
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li class="nav-item" v-bind:class="{active: isActive}" v-on:click="isActive=!isActive">
+          <li
+            class="nav-item"
+            v-bind:class="{ active: isActive }"
+            v-on:click="isActive = !isActive"
+          >
             <router-link to="/currencies" class="white-text">
               {{ "Currencies" | localize }}
             </router-link>
           </li>
-          <li class="nav-item" v-bind:class="{active: !isActive}" v-on:click="isActive=!isActive">
+          <li
+            class="nav-item"
+            v-bind:class="{ active: !isActive }"
+            v-on:click="isActive = !isActive"
+          >
             <router-link to="/converter" class="white-text">
               {{ "Converter" | localize }}
             </router-link>
@@ -71,15 +79,16 @@ export default {
     });
     this.mainCurrency = this.getMainCurrency;
     this.isRuLocale = this.locale === "ru-RU";
-    console.log("header",this.$route.path)
-    this.isActive = this.$route.path == "/currencies" || this.$route.path == "/"
+    this.isActive =
+      window.location.pathname === "/currencies" ||
+      window.location.pathname === "/";
     this.loading = false;
   },
 
   computed: {
     favoriteCurrencyRates: function() {
       return this.$store.getters["currencyRates"] == null
-        ? this.favoritesCurrencies
+        ? this.favoritesCurrenciesDefault
         : this.$store.getters["currencyRates"].filter(
             item => item.favorite === true
           );
@@ -90,8 +99,8 @@ export default {
     currencyRates() {
       return this.$store.getters["currencyRates"];
     },
-    favoritesCurrencies() {
-      return this.$store.getters["favoritesCurrencies"];
+    favoritesCurrenciesDefault() {
+      return this.$store.getters["favoritesCurrenciesDefault"];
     },
     locale() {
       return this.$store.getters["locale"];
