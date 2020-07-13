@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .app-loader {
   margin: auto auto;
 }

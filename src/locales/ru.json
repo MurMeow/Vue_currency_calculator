@@ -5,6 +5,8 @@
 	"footer_info_string": "Это приложение использует открытое API - ",
 	"History_Back": "Назад",
 	"History_Forward": "Вперед",
+	"Error": "Ошибка",
+	"You entered an invalid number":"Вы ввели неверное число",
 	"Euro": "Евро",
 	"Russian Ruble": "Русский рубль",
 	"US Dollar": "Доллар США",

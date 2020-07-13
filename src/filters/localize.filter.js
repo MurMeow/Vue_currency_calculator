@@ -1,10 +1,11 @@
 import store from "../store";
+import { localeEnUS, localeRuRU } from "../consts";
 import ru from "../locales/ru";
 import en from "../locales/en";
 
 const locales = {
-  "ru-RU": ru,
-  "en-US": en
+  [localeRuRU]: ru,
+  [localeEnUS]: en
 };
 
 export default function localizeFilter(key) {

@@ -17,20 +17,12 @@
   </footer>
 </template>
 
-<script>
-export default {};
-</script>
-
-<style>
-.container {
-  width: 80%;
-  margin: 0 auto;
-}
-.flex {
-  display: flex;
-  justify-content: space-between;
-}
+<style scoped>
 .page-footer {
-  padding-top: 0 !important;
+  padding-top: 0;
+  min-height: 50px;
+}
+a {
+  padding-left: 0.5rem;
 }
 </style>

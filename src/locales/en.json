@@ -5,6 +5,8 @@
 	"footer_info_string": "This application uses the open API - ",
 	"History_Back": "Back",
 	"History_Forward": "Forward",
+	"Error": "Error",
+	"You entered an invalid number":"You entered an invalid number",
 	"Euro": "Euro",
 	"Russian Ruble": "Russian Ruble",
 	"US Dollar": "US Dollar",

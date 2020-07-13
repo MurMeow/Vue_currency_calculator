@@ -10,7 +10,7 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/",
+      path: "/currencies",
       name: "Currencies",
       component: () => import("../views/Currencies")
     },
